@@ -78,19 +78,19 @@ void util(char **words, char *str)
 }
 
 /**
- *create_word - creates a word and insert it into the array
- *@words: Array of strings
- *@str: The string.
- *@start: Is the starting index of the word.
- *@end: Is the stopping index of the word.
- *@index: The index of the array to insert the word.
+ * create_word - creates a word and insert it into the array
+ * @words: Array of strings
+ * @str: The string.
+ * @start: Is the starting index of the word.
+ * @end: Is the stopping index of the word.
+ * @index: The index of the array to insert the word.
  */
 void create_word(char **words, char *str, int start, int end, int index)
 {
 	int i, j;
 
 	i = end - start;
-	words[index] = (char*) malloc(sizeof(char) * (i + 1));
+	words[index] = (char *) malloc(sizeof(char) * (i + 1));
 
 	for (j = 0; start < end; start++, j++)
 		words[index][j] = str[start];
