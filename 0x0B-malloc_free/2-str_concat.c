@@ -3,13 +3,13 @@
 #include <stdio.h>
 
 /**
- *str_concat - concatenates two strings.
- *@s1: The first string.
- *@s2: The second string.
+ * str_concat - concatenates two strings.
+ * @s1: The first string.
+ * @s2: The second string.
  *
- *Return: a pointer to a newly allocated space in memory which
- *contains the contents of s1, followed by contents of s2,
- *and null terminated. (NULL on failure)
+ * Return: a pointer to a newly allocated space in memory which
+ * contains the contents of s1, followed by contents of s2,
+ * and null terminated. (NULL on failure)
  */
 char *str_concat(char *s1, char *s2)
 {
@@ -33,7 +33,7 @@ char *str_concat(char *s1, char *s2)
 	}
 
 	len = len1 + len2;
-	result = (char*) malloc(sizeof(char) *(len + 1));
+	result = (char*) malloc(sizeof(char) * (len + 1));
 	if (result == NULL)
 		return (NULL);
 

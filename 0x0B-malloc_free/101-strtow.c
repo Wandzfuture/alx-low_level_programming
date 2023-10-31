@@ -36,7 +36,7 @@ char **strtow(char *str)
 	if (len == 0)
 		return (NULL);
 
-	words = (char **) malloc(sizeof(char*) *(len + 1));
+	words = (char **) malloc(sizeof(char*) * (len + 1));
 	if (words == NULL)
 		return (NULL);
 
@@ -90,7 +90,7 @@ void create_word(char **words, char *str, int start, int end, int index)
 	int i, j;
 
 	i = end - start;
-	words[index] = (char*) malloc(sizeof(char) *(i + 1));
+	words[index] = (char*) malloc(sizeof(char) * (i + 1));
 
 	for (j = 0; start < end; start++, j++)
 		words[index][j] = str[start];
