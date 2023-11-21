@@ -1,10 +1,10 @@
 #include "lists.h"
 
 /**
- *free_listint_safe - function that frees a linked list
- *@h: pointer to the first node in linked list
+ * free_listint_safe - function that frees a linked list
+ * @h: pointer to the first node in linked list
  *
- *Return: the size of the list that was freed
+ * Return: the size of the list that was freed(len)
  */
 size_t free_listint_safe(listint_t **h)
 {
@@ -13,7 +13,9 @@ size_t free_listint_safe(listint_t **h)
 	listint_t *temp;
 
 	if (!h || !*h)
+	{
 		return (0);
+	}
 
 	while (*h != NULL)
 	{
