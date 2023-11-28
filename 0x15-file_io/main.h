@@ -12,7 +12,12 @@
 #include <elf.h>
 #include <sys/mman.h>
 
-
+#define ERROR_EXIT(msg) \
+    { \
+        fprintf(stderr, "Error: %s\n", msg); \
+        exit(98); \
+    }
+#define ERROR_MSG(msg) fprintf(stderr, "Error: %s\n", msg)
 #define MAGIC "\177ELF"
 #define SIZEOF_EIDENT 16
 #define EI_CLASS 4
