@@ -1,106 +1,195 @@
 #include "main.h"
 
 /**
- * print_error_and_exit - Print an error message to stderr and exit with status 98
- * @msg: The error message to be printed
+ * get_class - Get the class information based on e_ident value
+ * @e_ident: The e_ident value representing class information
+ *
+ * Return: Corresponding class information as a string
  */
-void print_error_and_exit(const char *msg)
+const char *get_class(unsigned char e_ident)
 {
-	fprintf(stderr, "Error: %s\n", msg);
-	exit(98);
+        switch (e_ident)
+        {
+                case 0:
+                        return ("None");
+                case 1:
+                        return ("32-bit");
+                case 2:
+                        return ("64-bit");
+                default:
+                        return ("Invalid");
+        }
 }
 
 /**
- * print_error - Print an error message to stderr
- * @msg: The error message to be printed
+ * get_data - Get the data information based on e_ident value
+ * @e_ident: The e_ident value representing data information
+ *
+ * Return: Corresponding data information as a string
  */
-void print_error(const char *msg)
-{
-	fprintf(stderr, "Error: %s\n", msg);
-}
+ const char *get_data(unsigned char e_ident)
+ {
+ 	switch (e_ident)
+ 	{
+ 		case 0:
+ 			return ("None");
+ 		case 1:
+ 			return ("Little Endian");
+ 		case 2:
+ 			return ("Big Endian");
+ 		default:
+ 			return ("Invalid");
+ 	}
+ }
+
+ /**
+  *get_osabi - Get the OS/ABI information based on e_ident value
+  *@e_ident: The e_ident value representing OS/ABI information
+  *
+  *Return: Corresponding OS/ABI information as a string
+  */
+ const char *get_osabi(unsigned char e_ident)
+ {
+ 	switch (e_ident)
+ 	{
+ 		case 0:
+ 			return ("System V");
+ 		case 1:
+ 			return ("HP-UX");
+ 		case 2:
+ 			return ("NetBSD");
+ 		case 3:
+ 			return ("Linux");
+ 		case 4:
+ 			return ("GNU Hurd");
+ 		case 5:
+ 			return ("86Open common base");
+ 		case 6:
+ 			return ("ARM");
+ 		case 7:
+ 			return ("STMicroelectronics ST");
+ 		case 8:
+ 			return ("Motorola 68K");
+ 		case 9:
+ 			return ("Motorola 88K");
+ 		case 10:
+ 			return ("Intel 80386");
+ 		case 11:
+ 			return ("MIPS RS3000 big-endian");
+ 		case 12:
+ 			return ("IBM System/370");
+ 		case 13:
+ 			return ("MIPS RS3000 little-endian");
+ 		case 15:
+ 			return ("SPARC");
+ 		case 16:
+ 			return ("OpenRISC 32-bit");
+ 		case 17:
+ 			return ("PowerPC 32-bit");
+ 		case 18:
+ 			return ("PowerPC 64-bit");
+ 		case 19:
+ 			return ("S390");
+ 		case 20:
+ 			return ("SPU");
+ 		case 21:
+ 			return ("Nvidia CUDA");
+ 		case 22:
+ 			return ("TILEPro");
+ 		case 23:
+ 			return ("MIPS RS6000");
+ 		case 24:
+ 			return ("AMD GPU");
+ 		case 25:
+ 			return ("Infineon Technologies");
+ 		case 26:
+ 			return ("ARM 64-bit");
+ 		case 27:
+ 			return ("Cypress PSoC 5");
+ 		case 28:
+ 			return ("Freescale/NXP RISC-V");
+ 		case 29:
+ 			return ("Netronome Flow Management");
+ 		case 30:
+ 			return ("Barefoot Tofino");
+ 		case 31:
+ 			return ("Cavium Octeon");
+ 		case 65:
+ 			return ("OpenPOWER");
+ 		case 66:
+ 			return ("AMD x86-64");
+ 		case 255:
+ 			return ("Embedded RTOS ABI");
+ 		default:
+ 			return ("Unknown");
+ 	}
+ }
 
 /**
- * print_elf_header - Display information from the ELF header of a file
- * @filename: The name of the ELF file
- * @elf: Pointer to the ELF structure
- */
-void print_elf_header(const char *filename, Elf *elf)
-{
-	GElf_Ehdr ehdr;
-	unsigned char ident[EI_NIDENT];
-	size_t read_size;
-
-	read_size = read(elf_getbase(elf), ident, EI_NIDENT);
-	if (read_size != EI_NIDENT)
-	{
-		ERROR_MSG("File is not an ELF");
-		elf_end(elf);
-		exit(98);
-	}
-
-	if (gelf_getehdr(elf, &ehdr) == NULL)
-	{
-		ERROR_MSG("gelf_getehdr");
-		elf_end(elf);
-		exit(98);
-	}
-
-	printf("ELF Header:\n  Magic:   ");
-	for (size_t i = 0; i < EI_NIDENT; ++i)
-		printf("%02x%c", ident[i], i == EI_NIDENT - 1 ? '\n' : ' ');
-
-	printf("  Class:                             %s\n", ehdr.e_ident[EI_CLASS] == ELFCLASS64 ? "ELF64" : "ELF32");
-	printf("  Data:                              %s\n", ehdr.e_ident[EI_DATA] == ELFDATA2LSB ? "2's complement, little endian" : "2's complement, big endian");
-	printf("  Version:                           %d (current)\n", ehdr.e_ident[EI_VERSION]);
-	printf("  OS/ABI:                            %s\n", ehdr.e_ident[EI_OSABI] == ELFOSABI_SYSV ? "UNIX - System V" : "Others");
-	printf("  ABI Version:                       %d\n", ehdr.e_ident[EI_ABIVERSION]);
-	printf("  Type:                              0x%x (", ehdr.e_type);
-	switch (ehdr.e_type)
-	{
-		case ET_NONE:
-			printf("No file type");
-			break;
-		case ET_REL:
-			printf("REL (Relocatable file)");
-			break;
-		case ET_EXEC:
-			printf("EXEC (Executable file)");
-			break;
-		case ET_DYN:
-			printf("DYN (Shared object file)");
-			break;
-		case ET_CORE:
-			printf("CORE (Core file)");
-			break;
-		default:
-			printf("Unknown file type");
-	}
-
-	printf(")\n  Entry point address:               0x%lx\n", ehdr.e_entry);
-}
-
-/**
- * main - Entry point of the program
+ * main - Entry point of the program, reads and displays information from ELF header
  * @argc: The number of arguments passed to the program
  * @argv: An array of pointers to the arguments
- * 
+ *
  * Return: (0) on success, otherwise (1)
  */
-int main(int argc, char **argv)
+int main(int argc, char *argv[])
 {
 	int fd;
-	Elf * elf;
+	struct stat sb;
+	ElfHeader * eh;
 
 	if (argc != 2)
-		ERROR_EXIT("Usage: elf_header elf_filename");
+	{
+		printf("Usage: %s < elf file>\n", argv[0]);
+		return (1);
+	}
 
 	fd = open(argv[1], O_RDONLY);
-	if (fd == -1 || elf_version(EV_CURRENT) == EV_NONE || (elf = elf_begin(fd, ELF_C_READ, NULL)) == NULL)
-		ERROR_EXIT("File not found or not ELF");
+	if (fd == -1)
+	{
+		perror("open");
+		return (1);
+	}
 
-	print_elf_header(argv[1], elf);
+	if (fstat(fd, &sb) == -1)
+	{
+		perror("fstat");
+		return (1);
+	}
 
-	elf_end(elf);
+	eh = mmap(NULL, sb.st_size, PROT_READ, MAP_PRIVATE, fd, 0);
+	if (eh == MAP_FAILED)
+	{
+		perror("mmap");
+		return (1);
+	}
+
+	if (memcmp(eh->e_ident, MAGIC, 4) != 0)
+	{
+		printf("Invalid ELF file\n");
+		return (1);
+	}
+
+	printf("Class: %s\n", get_class(eh->e_ident[EI_CLASS]));
+	printf("Data: %s\n", get_data(eh->e_ident[EI_DATA]));
+	printf("Version: %u\n", eh->e_ident[EI_VERSION]);
+	printf("OS/ABI: %s\n", get_osabi(eh->e_ident[EI_OSABI]));
+	printf("ABI Version: %u\n", eh->e_ident[EI_ABIVERSION]);
+	printf("Type: %u\n", eh->e_type);
+	printf("Machine: %u\n", eh->e_machine);
+	printf("Version: %u\n", eh->e_version);
+	printf("Entry point: %u\n", eh->e_entry);
+	printf("Program header offset: %u\n", eh->e_phoff);
+	printf("Section header offset: %u\n", eh->e_shoff);
+	printf("Flags: %u\n", eh->e_flags);
+	printf("ELF header size: %u\n", eh->e_ehsize);
+	printf("Program header entry size: %u\n", eh->e_phentsize);
+	printf("Program header count: %u\n", eh->e_phnum);
+	printf("Section header entry size: %u\n", eh->e_shentsize);
+	printf("Section header count: %u\n", eh->e_shnum);
+	printf("Section header string table index: %u\n", eh->e_shstrndx);
+
+	munmap(eh, sb.st_size);
 	close(fd);
 
 	return (0);
