@@ -8,7 +8,7 @@
  * Return: pointer to the nth node of the linked list
  * if the node does not exist, return (NULL)
  */
-dlistint_t* get_dnodeint_at_index(dlistint_t *head, unsigned int index)
+dlistint_t *get_dnodeint_at_index(dlistint_t *head, unsigned int index)
 {
 	while (head != NULL && index > 0)
 	{

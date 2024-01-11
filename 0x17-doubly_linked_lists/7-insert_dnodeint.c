@@ -8,7 +8,7 @@
  *
  * Return: the address of the new node, or NULL if it failed
  */
-dlistint_t* insert_dnodeint_at_index(dlistint_t **h, unsigned int idx, int n)
+dlistint_t *insert_dnodeint_at_index(dlistint_t **h, unsigned int idx, int n)
 {
 	dlistint_t *new_node, *temp;
 	unsigned int count;
@@ -20,13 +20,11 @@ dlistint_t* insert_dnodeint_at_index(dlistint_t **h, unsigned int idx, int n)
 	new_node->n = n;
 	new_node->next = NULL;
 	new_node->prev = NULL;
-
 	if (*h == NULL)
 	{
 		*h = new_node;
 		return (new_node);
 	}
-
 	if (idx == 0)
 	{
 		new_node->next = *h;
@@ -42,17 +40,14 @@ dlistint_t* insert_dnodeint_at_index(dlistint_t **h, unsigned int idx, int n)
 		temp = temp->next;
 		count++;
 	}
-
 	if (count != idx)
 	{
 		free(new_node);
 		return (NULL);
 	}
-
 	new_node->next = temp;
 	new_node->prev = temp->prev;
 	temp->prev->next = new_node;
 	temp->prev = new_node;
-
 	return (new_node);
 }
