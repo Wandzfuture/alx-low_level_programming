@@ -8,15 +8,20 @@
  */
 size_t dlistint_len(const dlistint_t *h)
 {
-	size_t element = 0;
-	const dlistint_t *temp = h;
+	size_t count = 0;
 
-	while (temp != NULL)
+	if (h == NULL)
+		return (count);
+
+	/* Traverse to the beginning of the list */
+	while (h->prev != NULL)
+		h = h->prev;
+
+	while (h != NULL)
 	{
-		printf("%d\n", temp->n);
-		element++;
-		temp = temp->next;
+		count++;
+		h = h->next;
 	}
 
-	return (element);
+	return (count);
 }
