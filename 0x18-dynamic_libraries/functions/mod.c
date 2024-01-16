@@ -1,4 +1,4 @@
-#include <stdlib.h>
+#include <stdio.h>
 
 /**
  * mod -  returns remainder of two integers
@@ -9,5 +9,5 @@
  */
 int mod(int a, int b)
 {
-	return (a % b)
+	return (a % b);
 }

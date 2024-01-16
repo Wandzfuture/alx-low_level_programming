@@ -1,4 +1,4 @@
-#include <stdlib.h>
+#include <stdio.h>
 
 /**
  * sub - subtracts two integers
@@ -9,5 +9,5 @@
  */
 int sub(int a, int b)
 {
-	return (a - b)
+	return (a - b);
 }
