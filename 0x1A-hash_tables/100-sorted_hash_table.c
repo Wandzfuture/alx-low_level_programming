@@ -17,7 +17,7 @@ shash_table_t *shash_table_create(unsigned long int size)
 		return (NULL);
 
 	ht->size = size;
-	ht->array = malloc(sizeof(shash_node_t*) *size);
+	ht->array = malloc(sizeof(shash_node_t *) * size);
 	if (ht->array == NULL)
 	{
 		free(ht);
@@ -65,17 +65,14 @@ int shash_table_set(shash_table_t *ht, const char *key, const char *value)
 			tmp->value = value_copy;
 			return (1);
 		}
-
 		tmp = tmp->snext;
 	}
-
 	new = malloc(sizeof(shash_node_t));
 	if (new == NULL)
 	{
 		free(value_copy);
 		return (0);
 	}
-
 	new->key = strdup(key);
 	if (new->key == NULL)
 	{
@@ -83,12 +80,9 @@ int shash_table_set(shash_table_t *ht, const char *key, const char *value)
 		free(new);
 		return (0);
 	}
-
 	new->value = value_copy;
 	new->next = ht->array[index];
 	ht->array[index] = new;
-
-	/* Updated sorted linked list logic */
 	if (ht->shead == NULL || strcmp(ht->shead->key, key) > 0)
 	{
 		new->sprev = NULL;
@@ -112,7 +106,6 @@ int shash_table_set(shash_table_t *ht, const char *key, const char *value)
 			ht->stail = new;
 		tmp->snext = new;
 	}
-
 	return (1);
 }
 
