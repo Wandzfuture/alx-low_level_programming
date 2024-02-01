@@ -1,13 +1,12 @@
 #include "hash_tables.h"
 
-/*
- * hash_table_create - creates a hash table of a specified size
- * @size: the size of the hash table to create
+/**
+ * hash_table_create - creates a hash table
+ * @size: size of the array
  *
- * Return: a pointer to the newly created hash table,
- * or (NULL) if an error occurred
+ * Return: pointer to the newly created hash table
  */
-hash_table_t *hash_table_create(unsigned long int size)
+hash_table_t* hash_table_create(unsigned long int size)
 {
 	hash_table_t *ht;
 
@@ -25,9 +24,6 @@ hash_table_t *hash_table_create(unsigned long int size)
 		free(ht);
 		return (NULL);
 	}
-
-	for (unsigned long int i = 0; i < size; i++)
-		ht->array[i] = NULL;
 
 	return (ht);
 }
